@@ -28,3 +28,5 @@ npm run build
 3. O workflow em `.github/workflows/deploy.yml` fará o build e a publicação automaticamente a cada push.
 
 O workflow define `VITE_BASE_PATH` automaticamente com o nome do repositório durante o build. Para um build local, o Vite usa `/` como base padrão.
+
+
