@@ -1,7 +1,5 @@
 # Vagrant Builder
 
-Gerador visual de projetos Vagrant completos, pensado para funcionar como uma aplicação estática no GitHub Pages.
-
 ## Acesse a página
 
 Use o Vagrant Builder diretamente pelo GitHub Pages:
