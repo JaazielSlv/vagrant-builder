@@ -306,6 +306,9 @@ vagrant up --no-provision</code></pre>
       <h2 id="summary-title">Tudo pronto para gerar.</h2>
       <p class="panel-description">Confira os detalhes selecionados antes de baixar os arquivos.</p>
       <div class="summary-details" id="summary-details"></div>
+      <div class="file-preview-heading"><span class="field-label">VAGRANTFILE GERADO</span><button class="plugins-button" id="copy-vagrantfile" type="button">Copiar conteúdo</button></div>
+      <textarea class="file-preview" id="vagrantfile-preview" readonly aria-label="Conteúdo do Vagrantfile"></textarea>
+      <p class="copy-status" id="copy-status" aria-live="polite"></p>
       <button class="generate-button modal-action" id="download-vagrantfile" type="button">Baixar Vagrantfile <span>↓</span></button>
     </section>
   </div>
@@ -953,12 +956,17 @@ document.querySelector<HTMLButtonElement>('#generate-button')?.addEventListener(
     : '';
   if (modal && details) {
     details.innerHTML = `${advancedSummary}<div><span>Imagem base</span><strong>${escapeHtml(image)}</strong></div><div><span>Provider</span><strong>${escapeHtml(providerLabel)} (${escapeHtml(providerTechnical)})</strong></div><div class="machines-summary"><span>Máquinas (${machines.length})</span><ul>${machineSummary}</ul></div>${plugins.length ? `<div><span>Plugins</span><strong>${escapeHtml(plugins.join(', '))}</strong></div>` : ''}`;
+    const preview = document.querySelector<HTMLTextAreaElement>('#vagrantfile-preview');
+    const copyStatus = document.querySelector<HTMLElement>('#copy-status');
+    if (preview) preview.value = generateVagrantfile();
+    if (copyStatus) copyStatus.textContent = '';
     modal.hidden = false;
   }
 });
 
 document.querySelector<HTMLButtonElement>('#download-vagrantfile')?.addEventListener('click', () => {
-  const blob = new Blob([generateVagrantfile()], { type: 'application/octet-stream' });
+  const content = document.querySelector<HTMLTextAreaElement>('#vagrantfile-preview')?.value || generateVagrantfile();
+  const blob = new Blob([content], { type: 'application/octet-stream' });
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
   link.download = 'Vagrantfile';
@@ -966,6 +974,20 @@ document.querySelector<HTMLButtonElement>('#download-vagrantfile')?.addEventList
   link.click();
   document.body.removeChild(link);
   URL.revokeObjectURL(link.href);
+});
+
+document.querySelector<HTMLButtonElement>('#copy-vagrantfile')?.addEventListener('click', async () => {
+  const preview = document.querySelector<HTMLTextAreaElement>('#vagrantfile-preview');
+  const status = document.querySelector<HTMLElement>('#copy-status');
+  if (!preview || !status) return;
+  try {
+    await navigator.clipboard.writeText(preview.value);
+    status.textContent = 'Vagrantfile copiado para a área de transferência.';
+  } catch {
+    preview.focus();
+    preview.select();
+    status.textContent = 'Não foi possível copiar automaticamente. Pressione Ctrl+C para copiar o conteúdo selecionado.';
+  }
 });
 
 const closeSummary = (): void => {
