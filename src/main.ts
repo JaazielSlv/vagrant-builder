@@ -17,6 +17,12 @@ const assets = {
 };
 const creatorAvatarUrl = 'https://avatars.githubusercontent.com/u/143227938?v=4';
 
+const favicon = document.createElement('link');
+favicon.rel = 'icon';
+favicon.type = 'image/png';
+favicon.href = assets.avatar;
+document.head.appendChild(favicon);
+
 const app = document.querySelector<HTMLDivElement>('#app');
 
 if (!app) {
