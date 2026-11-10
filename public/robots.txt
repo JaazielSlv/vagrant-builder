@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://jaazielslv.github.io/vagrant-builder/sitemap.xml

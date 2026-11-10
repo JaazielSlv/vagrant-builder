@@ -13,6 +13,11 @@ const assets = {
   hyperV: new URL('../imgs/hyper-v.png', import.meta.url).href,
   docker: new URL('../imgs/docker.png', import.meta.url).href,
   parallels: new URL('../imgs/Parallels.png', import.meta.url).href,
+  fedora: new URL('../imgs/Fedora.png', import.meta.url).href,
+  arch: new URL('../imgs/arch-linux.png', import.meta.url).href,
+  opensuse: new URL('../imgs/opensuse.png', import.meta.url).href,
+  almaLinux: new URL('../imgs/AlmaLinux.png', import.meta.url).href,
+  windows: new URL('../imgs/Windows.png', import.meta.url).href,
   avatar: new URL('../imgs/avatar.png', import.meta.url).href,
 };
 const creatorAvatarUrl = 'https://avatars.githubusercontent.com/u/143227938?v=4';
@@ -31,15 +36,16 @@ if (!app) {
 
 app.innerHTML = `
   <header class="topbar" id="topbar">
-    <a class="brand" href="${import.meta.env.BASE_URL}" aria-label="Vagrant Builder - início"><img class="brand-avatar" src="${assets.avatar}" alt="" /><span>Vagrant <strong>Builder</strong></span></a>
+    <a class="brand" href="${import.meta.env.BASE_URL}" aria-label="Vagrant Builder - início"><img class="brand-avatar" src="${assets.avatar}" alt="Logo do Vagrant Builder" width="30" height="30" /><span>Vagrant <strong>Builder</strong></span></a>
     <nav class="main-nav" aria-label="Navegação principal"><a class="active nav-route" data-route="home" href="${import.meta.env.BASE_URL}">Builder</a><a class="nav-route" data-route="templates" href="${import.meta.env.BASE_URL}templates">Templates</a><a class="nav-route" data-route="docs" href="${import.meta.env.BASE_URL}docs">Docs</a></nav>
     <a class="github-link nav-route" data-route="about" href="${import.meta.env.BASE_URL}about">Sobre mim <span aria-hidden="true">↗</span></a>
   </header>
 
   <main>
+    <h1 id="page-title" class="sr-only">Vagrant Builder — Gere seu ambiente Vagrant</h1>
     <section class="welcome-screen" id="welcome-screen">
       <div class="eyebrow">VAGRANT BUILDER</div>
-      <h1>Construa seu ambiente<br /><em>Vagrant.</em></h1>
+      <h2 class="page-heading">Construa seu ambiente<br /><em>Vagrant.</em></h2>
       <p class="hero-copy">Escolha como você quer configurar seu projeto Vagrant.<br />Você poderá ajustar cada máquina em detalhes na próxima etapa.</p>
       <div class="template-actions">
         <button class="template-card" type="button" data-mode="basic">
@@ -58,7 +64,7 @@ app.innerHTML = `
     <section class="templates-screen" id="templates-screen" hidden>
       <div class="templates-heading">
         <div class="eyebrow"><span class="pulse"></span> AMBIENTES PRONTOS</div>
-        <h1>Comece com um <em>template.</em></h1>
+        <h2 class="page-heading">Comece com um <em>template.</em></h2>
         <p class="hero-copy">Escolha uma base preparada e personalize os detalhes no gerador profissional.</p>
       </div>
       <div class="template-library">
@@ -93,7 +99,7 @@ app.innerHTML = `
     <section class="docs-screen info-screen" id="docs-screen" hidden>
       <div class="info-heading">
         <div class="eyebrow"><span class="pulse"></span> DOCUMENTAÇÃO</div>
-        <h1>Do primeiro clique<br /><em>ao ambiente em execução.</em></h1>
+        <h2 class="page-heading">Do primeiro clique<br /><em>ao ambiente em execução.</em></h2>
         <p class="hero-copy">O Vagrant Builder transforma suas escolhas em um projeto Vagrant organizado. A geração acontece no navegador; a criação e o provisionamento das máquinas acontecem na sua própria máquina.</p>
       </div>
       <div class="docs-grid">
@@ -162,9 +168,9 @@ vagrant up --no-provision</code></pre>
 
     <section class="about-screen info-screen" id="about-screen" hidden>
       <div class="about-card">
-        <a class="about-avatar-link" href="${creatorAvatarUrl}" target="_blank" rel="noreferrer"><img class="about-avatar" src="${creatorAvatarUrl}" alt="Avatar de Jaaziel Silva" /></a>
+        <a class="about-avatar-link" href="${creatorAvatarUrl}" target="_blank" rel="noreferrer"><img class="about-avatar" src="${creatorAvatarUrl}" alt="Avatar de Jaaziel Silva" width="170" height="170" loading="lazy" decoding="async" /></a>
         <div class="eyebrow">SOBRE O CRIADOR</div>
-        <h1>Olá, eu sou <em>Jaaziel Silva.</em></h1>
+        <h2 class="page-heading">Olá, eu sou <em>Jaaziel Silva.</em></h2>
         <p class="about-copy">Criei o Vagrant Builder para facilitar a criação de ambientes Vagrant. A ideia é transformar uma configuração que normalmente exige vários arquivos e comandos em uma experiência visual, simples e acessível para estudantes, desenvolvedores e administradores de sistemas.</p>
         <p class="about-copy">Você escolhe a imagem, o provider, as máquinas e os provisionadores; o site organiza tudo em um Vagrantfile pronto para baixar e usar localmente.</p>
         <p class="about-copy">Aceito sugestões e críticas para continuar melhorando o projeto.</p>
@@ -177,7 +183,7 @@ vagrant up --no-provision</code></pre>
         <button class="back-button" id="back-button" type="button">← Voltar</button>
         <div>
           <div class="eyebrow"><span class="pulse"></span> CONFIGURAÇÃO DO PROJETO</div>
-          <h1>Monte seu <em>ambiente.</em></h1>
+          <h2 class="page-heading">Monte seu <em>ambiente.</em></h2>
         </div>
       </div>
     </section>
@@ -188,12 +194,18 @@ vagrant up --no-provision</code></pre>
         <p class="panel-description">Defina a imagem e o provider que irão sustentar suas máquinas.</p>
         <span class="field-label">IMAGEM BASE</span>
         <div class="image-grid" id="image-grid">
-          <button class="image-card selected" type="button"><img class="os-icon" src="${assets.ubuntu}" alt="" /><strong>Ubuntu</strong><small>22.04 LTS</small></button>
-          <button class="image-card" type="button"><img class="os-icon" src="${assets.debian}" alt="" /><strong>Debian</strong><small>Bookworm 12</small></button>
-          <button class="image-card" type="button"><img class="os-icon" src="${assets.rocky}" alt="" /><strong>Rocky Linux</strong><small>Version 9</small></button>
-          <button class="image-card" type="button"><img class="os-icon" src="${assets.centos}" alt="" /><strong>CentOS</strong><small>Stream 9</small></button>
-          <button class="image-card" type="button"><img class="os-icon" src="${assets.kali}" alt="" /><strong>Kali Linux</strong><small>Rolling</small></button>
-          <button class="image-card" type="button"><img class="os-icon" src="${assets.alpine}" alt="" /><strong>Alpine</strong><small>Linux 3.17</small></button>
+          <button class="image-card selected" type="button"><img class="os-icon" src="${assets.ubuntu}" alt="Ubuntu" width="40" height="40" /><strong>Ubuntu</strong><small>22.04 LTS</small></button>
+          <button class="image-card" type="button"><img class="os-icon" src="${assets.debian}" alt="Debian" width="40" height="40" /><strong>Debian</strong><small>Bookworm 12</small></button>
+          <button class="image-card" type="button"><img class="os-icon" src="${assets.rocky}" alt="Rocky Linux" width="40" height="40" /><strong>Rocky Linux</strong><small>Version 9</small></button>
+          <button class="image-card" type="button"><img class="os-icon" src="${assets.centos}" alt="CentOS" width="40" height="40" /><strong>CentOS</strong><small>Stream 9</small></button>
+          <button class="image-card" type="button"><img class="os-icon" src="${assets.kali}" alt="Kali Linux" width="40" height="40" /><strong>Kali Linux</strong><small>Rolling</small></button>
+          <button class="image-card" type="button"><img class="os-icon" src="${assets.fedora}" alt="Fedora" width="40" height="40" /><strong>Fedora</strong><small>40</small></button>
+          <button class="image-card professional-only" type="button"><img class="os-icon" src="${assets.alpine}" alt="Alpine Linux" width="40" height="40" /><strong>Alpine</strong><small>Linux 3.17</small></button>
+          <button class="image-card professional-only" type="button"><img class="os-icon" src="${assets.arch}" alt="Arch Linux" width="40" height="40" /><strong>Arch Linux</strong><small>Rolling</small></button>
+          <button class="image-card professional-only" type="button"><img class="os-icon" src="${assets.windows}" alt="Windows 10" width="40" height="40" /><strong>Windows 10</strong><small>Desktop</small></button>
+          <button class="image-card professional-only" type="button"><img class="os-icon" src="${assets.windows}" alt="Windows 11" width="40" height="40" /><strong>Windows 11</strong><small>Desktop</small></button>
+          <button class="image-card professional-only" type="button"><img class="os-icon" src="${assets.opensuse}" alt="openSUSE" width="40" height="40" /><strong>openSUSE</strong><small>Leap 15</small></button>
+          <button class="image-card professional-only" type="button"><img class="os-icon" src="${assets.almaLinux}" alt="AlmaLinux" width="40" height="40" /><strong>AlmaLinux</strong><small>9</small></button>
         </div>
       </div>
 
@@ -202,12 +214,12 @@ vagrant up --no-provision</code></pre>
         <p class="panel-description">Escolha onde suas máquinas serão executadas.</p>
         <span class="field-label">PROVIDER</span>
         <div class="choice-grid providers" id="provider">
-          <button class="choice-card selected" type="button"><img class="provider-icon" src="${assets.virtualBox}" alt="" /><span>VirtualBox</span></button>
-          <button class="choice-card" type="button"><img class="provider-icon" src="${assets.libvirt}" alt="" /><span>Libvirt</span></button>
-          <button class="choice-card" type="button"><img class="provider-icon" src="${assets.vmware}" alt="" /><span>VMware</span></button>
-          <button class="choice-card" type="button"><img class="provider-icon" src="${assets.hyperV}" alt="" /><span>Hyper-V</span></button>
-          <button class="choice-card" type="button"><img class="provider-icon" src="${assets.docker}" alt="" /><span>Docker</span></button>
-          <button class="choice-card" type="button"><img class="provider-icon" src="${assets.parallels}" alt="" /><span>Parallels</span></button>
+          <button class="choice-card selected" type="button"><img class="provider-icon" src="${assets.virtualBox}" alt="VirtualBox" width="28" height="28" /><span>VirtualBox</span></button>
+          <button class="choice-card professional-only" type="button"><img class="provider-icon" src="${assets.libvirt}" alt="Libvirt" width="28" height="28" /><span>Libvirt</span></button>
+          <button class="choice-card" type="button"><img class="provider-icon" src="${assets.vmware}" alt="VMware" width="28" height="28" /><span>VMware</span></button>
+          <button class="choice-card professional-only" type="button"><img class="provider-icon" src="${assets.hyperV}" alt="Hyper-V" width="28" height="28" /><span>Hyper-V</span></button>
+          <button class="choice-card" type="button"><img class="provider-icon" src="${assets.docker}" alt="Docker" width="28" height="28" /><span>Docker</span></button>
+          <button class="choice-card professional-only" type="button"><img class="provider-icon" src="${assets.parallels}" alt="Parallels" width="28" height="28" /><span>Parallels</span></button>
         </div>
       </div>
 
@@ -410,6 +422,54 @@ const currentRoute = (): string => {
   return path.startsWith(appBasePath) ? path.slice(appBasePath.length).replace(/^\/+/, '') : '';
 };
 
+const siteUrl = 'https://jaazielslv.github.io/vagrant-builder';
+const routeSeo: Record<string, { title: string; description: string }> = {
+  home: {
+    title: 'Vagrant Builder — Gere seu ambiente Vagrant',
+    description: 'Gere Vagrantfiles, ambientes multi-VM e configurações de provisionamento diretamente no navegador.',
+  },
+  templates: {
+    title: 'Templates Vagrant prontos | Vagrant Builder',
+    description: 'Escolha templates Vagrant para ambientes web, segurança, redes, Docker e monitoramento.',
+  },
+  docs: {
+    title: 'Documentação do Vagrant Builder',
+    description: 'Aprenda a gerar, baixar e executar projetos Vagrant com providers e provisionadores.',
+  },
+  about: {
+    title: 'Sobre o Vagrant Builder',
+    description: 'Conheça o criador e o projeto open source Vagrant Builder.',
+  },
+  basic: {
+    title: 'Gerador Vagrant básico | Vagrant Builder',
+    description: 'Monte rapidamente um Vagrantfile com as opções essenciais de imagem, provider e recursos.',
+  },
+  professional: {
+    title: 'Gerador Vagrant profissional | Vagrant Builder',
+    description: 'Configure VMs, redes, plugins e provisionadores em um projeto Vagrant completo.',
+  },
+};
+
+const updateSeo = (route: string): void => {
+  const seo = routeSeo[route] ?? routeSeo.home;
+  const canonicalUrl = `${siteUrl}${route === 'home' ? '/' : `/${route}`}`;
+  const pageTitle = document.querySelector<HTMLElement>('#page-title');
+  document.title = seo.title;
+  if (pageTitle) pageTitle.textContent = seo.title;
+  const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+  if (description) description.content = seo.description;
+  const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (canonical) canonical.href = canonicalUrl;
+  document.querySelectorAll<HTMLMetaElement>('meta[property="og:title"], meta[name="twitter:title"]').forEach((meta) => {
+    meta.content = seo.title;
+  });
+  document.querySelectorAll<HTMLMetaElement>('meta[property="og:description"], meta[name="twitter:description"]').forEach((meta) => {
+    meta.content = seo.description;
+  });
+  const ogUrl = document.querySelector<HTMLMetaElement>('meta[property="og:url"]');
+  if (ogUrl) ogUrl.content = canonicalUrl;
+};
+
 type TemplateId = 'web' | 'security' | 'network' | 'docker' | 'noc';
 
 const setCardSelection = (selector: string, value: string): void => {
@@ -528,7 +588,18 @@ const openCreationRoute = (mode: 'basic' | 'professional', replace = false): voi
     if (pluginsSection) pluginsSection.hidden = mode === 'basic';
     if (basicToolsSection) basicToolsSection.hidden = mode !== 'basic';
     if (professionalOptions) professionalOptions.hidden = mode !== 'professional';
-    document.title = `${mode === 'professional' ? 'Modo Profissional' : 'Modo Básico'} | Vagrant Builder`;
+    document.querySelectorAll<HTMLElement>('.professional-only').forEach((element) => {
+      element.hidden = mode === 'basic';
+    });
+    if (mode === 'basic' && document.querySelector<HTMLButtonElement>('.choice-card.selected')?.classList.contains('professional-only')) {
+      document.querySelectorAll<HTMLButtonElement>('.choice-card').forEach((card) => card.classList.remove('selected'));
+      document.querySelector<HTMLButtonElement>('.choice-card:not(.professional-only)')?.classList.add('selected');
+    }
+    if (mode === 'basic' && document.querySelector<HTMLButtonElement>('.image-card.selected')?.classList.contains('professional-only')) {
+      document.querySelectorAll<HTMLButtonElement>('.image-card').forEach((card) => card.classList.remove('selected'));
+      document.querySelector<HTMLButtonElement>('.image-card:not(.professional-only)')?.classList.add('selected');
+    }
+    updateSeo(mode);
     if (!replace) {
       window.history.pushState({ mode }, '', `${appBasePath}/${mode}`);
     }
@@ -551,7 +622,7 @@ const openTemplatesRoute = (replace = false): void => {
     footer.hidden = false;
     if (docsScreen) docsScreen.hidden = true;
     if (aboutScreen) aboutScreen.hidden = true;
-    document.title = 'Templates | Vagrant Builder';
+    updateSeo('templates');
     document.querySelectorAll('.main-nav a').forEach((link) => link.classList.remove('active'));
     document.querySelector<HTMLAnchorElement>('[data-route="templates"]')?.classList.add('active');
     if (!replace) window.history.pushState({}, '', `${appBasePath}/templates`);
@@ -574,7 +645,7 @@ const openInfoRoute = (route: 'docs' | 'about', replace = false): void => {
   footer.hidden = false;
   document.querySelectorAll('.main-nav a, .github-link').forEach((link) => link.classList.remove('active'));
   document.querySelector<HTMLElement>(`[data-route="${route}"]`)?.classList.add('active');
-  document.title = `${route === 'docs' ? 'Documentação' : 'Sobre mim'} | Vagrant Builder`;
+  updateSeo(route);
   if (!replace) window.history.pushState({}, '', `${appBasePath}/${route}`);
   window.scrollTo(0, 0);
 };
@@ -625,7 +696,7 @@ document.querySelector<HTMLButtonElement>('#back-button')?.addEventListener('cli
     if (aboutScreen) aboutScreen.hidden = true;
     if (docsScreen) docsScreen.hidden = true;
     if (aboutScreen) aboutScreen.hidden = true;
-    document.title = 'Vagrant Builder';
+    updateSeo('home');
     window.history.pushState({}, '', `${appBasePath}/`);
     window.scrollTo(0, 0);
   }
@@ -650,6 +721,12 @@ const selectedImageBox = (): string => {
     centos: 'centos/stream9',
     'kali linux': 'kalilinux/rolling',
     alpine: 'generic/alpine317',
+    fedora: 'bento/fedora-40',
+    'arch linux': 'archlinux/archlinux',
+    'windows 10': 'gusztavvargadr/windows-10',
+    'windows 11': 'gusztavvargadr/windows-11',
+    opensuse: 'bento/opensuse-leap-15',
+    almalinux: 'almalinux/9',
   };
   return image ? boxes[image] ?? 'ubuntu/jammy64' : 'ubuntu/jammy64';
 };
@@ -670,10 +747,13 @@ const checkedProfessionalTool = (name: string): boolean => {
     .some((input) => input.parentElement?.textContent?.trim().toLowerCase() === name.toLowerCase()));
 };
 
-const selectedBase = (): 'debian' | 'alpine' | 'rpm' => {
+const selectedBase = (): 'debian' | 'alpine' | 'rpm' | 'arch' | 'suse' | 'windows' => {
   const image = document.querySelector<HTMLButtonElement>('.image-card.selected')?.querySelector('strong')?.textContent?.trim().toLowerCase();
   if (image === 'alpine') return 'alpine';
-  if (image === 'rocky linux' || image === 'centos') return 'rpm';
+  if (image === 'arch linux') return 'arch';
+  if (image === 'windows 10' || image === 'windows 11') return 'windows';
+  if (image === 'opensuse') return 'suse';
+  if (image === 'rocky linux' || image === 'centos' || image === 'fedora' || image === 'almalinux') return 'rpm';
   return 'debian';
 };
 
@@ -684,12 +764,19 @@ const shellForMachine = (machine: HTMLElement, customScript: string): string => 
   const install = (packages: string): void => {
     if (base === 'alpine') commands.push(`apk add --no-cache ${packages}`);
     else if (base === 'rpm') commands.push(`dnf install -y ${packages}`);
+    else if (base === 'arch') commands.push(`pacman -Sy --noconfirm ${packages}`);
+    else if (base === 'suse') commands.push(`zypper --non-interactive install ${packages}`);
+    else if (base === 'windows') commands.push(`choco install -y ${packages}`);
     else commands.push(`apt-get install -y ${packages}`);
   };
   if (base === 'debian') {
     commands.push('export DEBIAN_FRONTEND=noninteractive', 'apt-get update');
   } else if (base === 'rpm') {
     commands.push('dnf makecache');
+  } else if (base === 'arch') {
+    commands.push('pacman -Sy --noconfirm');
+  } else if (base === 'suse') {
+    commands.push('zypper --non-interactive refresh');
   }
   if (role === 'zabbix-server') {
     install('wget');
