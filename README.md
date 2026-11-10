@@ -27,9 +27,4 @@ npm run build
 
 O workflow define `VITE_BASE_PATH` automaticamente com o nome do repositório durante o build. Para um build local, o Vite usa `/` como base padrão.
 
-## SEO e descoberta
-
-O build publica automaticamente `sitemap.xml`, `robots.txt` e `llms.txt`. O HTML também inclui canonical URL, metadados Open Graph/Twitter e dados estruturados `WebApplication`.
-
-Para concluir a verificação externa, adicione `https://jaazielslv.github.io/vagrant-builder/` ao Google Search Console, confirme a propriedade e envie `sitemap.xml`. O GitHub Pages fornece HTTPS automaticamente.
 
