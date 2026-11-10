@@ -93,37 +93,69 @@ app.innerHTML = `
     <section class="docs-screen info-screen" id="docs-screen" hidden>
       <div class="info-heading">
         <div class="eyebrow"><span class="pulse"></span> DOCUMENTAÇÃO</div>
-        <h1>Use o Vagrant<br /><em>com confiança.</em></h1>
-        <p class="hero-copy">O Vagrant Builder gera os arquivos do seu ambiente. A execução acontece na sua própria máquina.</p>
+        <h1>Do primeiro clique<br /><em>ao ambiente em execução.</em></h1>
+        <p class="hero-copy">O Vagrant Builder transforma suas escolhas em um projeto Vagrant organizado. A geração acontece no navegador; a criação e o provisionamento das máquinas acontecem na sua própria máquina.</p>
       </div>
       <div class="docs-grid">
         <article class="info-card">
           <span class="info-number">01</span>
           <h2>Pré-requisitos</h2>
-          <p>Instale o <strong>Vagrant</strong> e um provider de virtualização na máquina física. Para começar, recomendamos o VirtualBox.</p>
+          <p>Antes de executar um projeto, instale na máquina física o <strong>Vagrant</strong> e pelo menos um provider compatível. Para começar, recomendamos o VirtualBox.</p>
           <div class="info-links"><a href="https://developer.hashicorp.com/vagrant/install" target="_blank" rel="noreferrer">Baixar Vagrant ↗</a><a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noreferrer">Baixar VirtualBox ↗</a></div>
-          <p>Também confirme que a virtualização de hardware <strong>VT-x</strong> (Intel) ou <strong>AMD-V</strong> (AMD) está ativada na BIOS/UEFI.</p>
+          <ul class="docs-list"><li>Ative <strong>VT-x</strong> (Intel) ou <strong>AMD-V</strong> (AMD) na BIOS/UEFI.</li><li>Verifique se o computador tem memória, armazenamento e permissões suficientes.</li><li>Use versões compatíveis do Vagrant, do provider e das boxes selecionadas.</li></ul>
         </article>
         <article class="info-card">
           <span class="info-number">02</span>
-          <h2>Comandos de sobrevivência</h2>
-          <p>Entre na pasta que contém o <code>Vagrantfile</code> e execute os comandos abaixo no terminal:</p>
-          <pre><code>vagrant up       # liga e provisiona
-vagrant ssh      # acessa a VM
-vagrant halt     # desliga a VM
-vagrant destroy  # apaga a VM</code></pre>
+          <h2>Fluxo de utilização</h2>
+          <ol class="docs-list"><li>Escolha o modo Básico ou Profissional.</li><li>Configure a box, o provider, as VMs, a rede e os provisionadores.</li><li>Baixe o <code>Vagrantfile</code> e coloque-o em uma pasta exclusiva do projeto.</li><li>Abra o terminal nessa pasta e execute <code>vagrant up</code>.</li></ol>
+          <p>O Builder não executa Vagrant, Ansible ou Docker no navegador. Ele apenas prepara os arquivos de configuração.</p>
         </article>
         <article class="info-card">
           <span class="info-number">03</span>
-          <h2>Plugins</h2>
-          <ul class="docs-list"><li><strong>vagrant-vbguest</strong> mantém as Guest Additions compatíveis com o VirtualBox.</li><li><strong>vagrant-disksize</strong> permite aplicar um tamanho de disco personalizado.</li><li><strong>vagrant-hostmanager</strong> ajuda as máquinas a se encontrarem por nomes, sem decorar IPs.</li></ul>
-          <p>Quando um plugin for selecionado, o Vagrantfile mostrará o comando para instalá-lo com <code>vagrant plugin install</code>.</p>
+          <h2>Comandos essenciais do Vagrant</h2>
+          <p>Execute os comandos dentro da pasta que contém o <code>Vagrantfile</code>:</p>
+          <pre><code>vagrant up          # cria, inicia e provisiona
+vagrant status      # mostra o estado das VMs
+vagrant ssh         # acessa uma VM
+vagrant provision   # executa o provisionamento novamente
+vagrant halt        # desliga as VMs
+vagrant destroy     # remove as VMs e libera espaço</code></pre>
         </article>
         <article class="info-card">
           <span class="info-number">04</span>
-          <h2>Ansible e arquivos gerados</h2>
-          <p>O provisionamento Ansible é configurado no Vagrantfile. Preencha o playbook e mantenha o arquivo em <code>ansible/playbook.yml</code> ao lado dele.</p>
-          <p>Se você baixar um pacote de projeto, extraia a pasta e abra o terminal dentro dela antes de executar <code>vagrant up</code>.</p>
+          <h2>O que o projeto gera</h2>
+          <p>O arquivo principal é o <code>Vagrantfile</code>. Ele contém a box, as máquinas, recursos, redes, portas, plugins e provisionadores escolhidos.</p>
+          <ul class="docs-list"><li><strong>Shell:</strong> comandos de instalação executados durante o provisionamento.</li><li><strong>Ansible:</strong> referência para <code>ansible/playbook.yml</code>.</li><li><strong>Multi-VM:</strong> um bloco <code>config.vm.define</code> para cada máquina.</li></ul>
+        </article>
+        <article class="info-card">
+          <span class="info-number">05</span>
+          <h2>Plugins disponíveis</h2>
+          <ul class="docs-list"><li><strong>vagrant-vbguest</strong> mantém as Guest Additions compatíveis com o VirtualBox.</li><li><strong>vagrant-disksize</strong> aplica um tamanho de disco personalizado. Ele é necessário quando o disco for diferente do padrão.</li><li><strong>vagrant-hostmanager</strong> configura nomes de host para facilitar a comunicação entre máquinas.</li></ul>
+          <p>O Vagrantfile exibe o comando <code>vagrant plugin install</code> para cada plugin selecionado. Instale os plugins antes de executar a configuração que depende deles.</p>
+        </article>
+        <article class="info-card">
+          <span class="info-number">06</span>
+          <h2>Shell, Ansible e Docker</h2>
+          <p>O Shell instala pacotes e executa comandos dentro da VM. O Ansible aplica um playbook externo. O Docker é instalado dentro da VM quando essa opção é selecionada; ele não é executado pelo navegador.</p>
+          <p>Ao usar Ansible, mantenha a estrutura:</p>
+          <pre><code>meu-projeto/
+├── Vagrantfile
+└── ansible/
+    └── playbook.yml</code></pre>
+        </article>
+        <article class="info-card">
+          <span class="info-number">07</span>
+          <h2>Validação e diagnóstico</h2>
+          <p>Antes de iniciar máquinas, valide a sintaxe do arquivo e consulte o estado do projeto:</p>
+          <pre><code>vagrant validate
+vagrant status
+vagrant up --no-provision</code></pre>
+          <p>Se houver falha de pacote, rede ou provider, leia a primeira mensagem de erro do terminal. Confirme também a box, o provider instalado e a virtualização habilitada.</p>
+        </article>
+        <article class="info-card">
+          <span class="info-number">08</span>
+          <h2>Boas práticas</h2>
+          <ul class="docs-list"><li>Use nomes simples para projetos e máquinas, sem espaços ou caracteres especiais.</li><li>Não compartilhe senhas ou chaves privadas em scripts e playbooks.</li><li>Faça backup de playbooks personalizados antes de regenerar o projeto.</li><li>Use <code>vagrant destroy</code> apenas quando tiver certeza: ele remove as VMs e seus discos.</li></ul>
         </article>
       </div>
     </section>
